@@ -1,0 +1,42 @@
+//
+//  main.c
+//  litterflowershop
+//
+//  Created by misok on 14-10-14.
+//  Copyright (c) 2014年 misok. All rights reserved.
+//
+
+#include <stdio.h>
+#include <time.h>
+int a[100][100];
+int b[100][100];
+
+int max(int a,int b)
+{
+    return a>b?a:b;
+}
+
+int main() {
+    int F, V;//花的个数和花瓶数
+    int i,j,k;
+    
+    while (scanf("%d%d", &F, &V) != EOF)
+    {
+        for (i = 1; i <= F; i++)
+            for (j = 1; j <= V; j++)
+                scanf("%d", &a[i][j]);
+        b[1][1] = a[1][1];
+        for (k = 2; k <= V; k++)
+            b[1][k] = max(a[1][k], b[1][k - 1]);
+        for (i = 2; i <= F; i++)
+        {
+            b[i][i] = b[i - 1][i - 1] + a[i][i];//选了和没选
+            for (j = i; j <= V; j++)
+                b[i][j] = max(b[i - 1][j - 1] + a[i][j], b[i][j-1]);//选了和没选
+        }
+        printf("%d\n", b[F][V]);
+    }
+    return 0;
+    
+    
+}
